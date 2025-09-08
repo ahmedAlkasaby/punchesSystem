@@ -52,5 +52,11 @@ return[
     'old'=>'Old',
     'new'=>'New',
     'close'=>'Close',
-    
+    'approved'=>'Approved',
+    'late'=>'Late',
+    'early_leave'=>'Early Leave',
+    'out_redis'=>'Out Redius',
+    'pending'=>'Pending',
+    'rejected'=>'Rejected',
 ];
+    
