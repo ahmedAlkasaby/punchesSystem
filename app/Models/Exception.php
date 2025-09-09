@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\StatusExceptionEnum;
+use App\Enums\StatusExceptionEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class Exception extends MainModel

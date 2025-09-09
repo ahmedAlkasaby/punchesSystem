@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\StatusPunchEnum;
+use App\Enums\StatusPunchEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class Punch extends MainModel
