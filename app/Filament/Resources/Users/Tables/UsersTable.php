@@ -72,7 +72,7 @@ class UsersTable
                 SelectFilter::make('type')
                     ->options([
                         'admin' => __('site.admin'),
-                        'client' => __('site.client'),
+                        'employee' => __('site.employee'),
                       
                     ])
                     ->label(__('site.type')),

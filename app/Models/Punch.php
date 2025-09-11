@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\StatusPunchEnum;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Punch extends MainModel
@@ -10,17 +11,23 @@ class Punch extends MainModel
     protected $fillable = [
         'user_id',
         'type',
-        'status',
+        'is_late',
+        'is_early_leave',
+        'is_out_of_radius',
+        'approved',
+        'approved_by',
+        'approved_at',
         'location_id',
+        'latitude',
+        'longitude',
+        'address',
+        'distance_from_location',
         'device_info',
         'note',
     ];
 
 
-    protected $casts = [
-        'status' => StatusPunchEnum::class,
-    ];
-
+   
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -28,6 +35,16 @@ class Punch extends MainModel
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+     public static function getLastPunchOfUserToday($userId)
+    {
+        $today = Carbon::today();
+
+        return self::where('user_id', $userId)
+            ->whereDate('created_at', $today)
+            ->orderByDesc('created_at')
+            ->first();
     }
 
 

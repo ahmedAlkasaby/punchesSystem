@@ -3,19 +3,21 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\ActivityLogTrait;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use Laravel\Sanctum\HasApiTokens;
 
 
 class User extends Authenticatable  implements JWTSubject
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles,HasApiTokens;
+    use HasFactory, Notifiable, HasRoles,HasApiTokens,ActivityLogTrait,SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -23,7 +25,7 @@ class User extends Authenticatable  implements JWTSubject
      * @var list<string>
      */
 
-     public function canAccessPanel(Panel $panel): bool
+    public function canAccessPanel(Panel $panel): bool
     {
         return $this->type === 'admin';
     }
@@ -78,4 +80,28 @@ class User extends Authenticatable  implements JWTSubject
     {
         return $this->hasMany(Device::class, 'user_id', 'id');
     }
+
+    public function locations()
+    {
+        return $this->belongsToMany(Location::class, 'user_location')
+            ->withPivot('primary_location')
+            ->withTimestamps();
+    }
+
+    public function activeLocations()
+    {
+        return $this->belongsToMany(Location::class, 'user_location')
+            ->withPivot('primary_location')
+            ->withTimestamps()
+            ->active();
+    }
+
+    public function punches()
+    {
+        return $this->hasMany(Punch::class, 'user_id', 'id');
+    }
+
+  
+
+
 }

@@ -3,7 +3,7 @@
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\ForgetPasswordController;
 use App\Http\Controllers\Api\Auth\RestPasswordController;
-
+use App\Http\Controllers\Api\PunchController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -37,6 +37,11 @@ Route::group(['middleware'=>['userLangApi']],function(){
         Route::post('logout',[AuthController::class,'logout'])->middleware('auth-api');
         Route::post('forget/password',[ForgetPasswordController::class,'ForgetPassword']);
         Route::post('rest/password',[RestPasswordController::class,'RestPassword']);
+    });
+
+    Route::group(['middleware'=>['auth-api','userLangApi']],function(){
+
+        Route::post('punches',[PunchController::class,'store']);
     });
   
 

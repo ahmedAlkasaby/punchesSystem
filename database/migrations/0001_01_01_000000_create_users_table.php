@@ -17,12 +17,20 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('type')->default('admin');
+            $table->enum('type',['admin','employee'])->default('admin');
             $table->boolean('active')->default(true);
             $table->enum('lang', ['en', 'ar'])->default('en');
             $table->enum('theme', ['light', 'dark'])->default('light');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
+            $table->index(['email', 'deleted_at']);
+            $table->index('type');  // Single index for type lookups
+            $table->index(['type', 'active']);  // Composite index for filtering active users by type
+            $table->index(['type', 'deleted_at']);  // For soft deletes with type filtering
+            $table->index(['active', 'deleted_at']);
+            $table->index(['name', 'deleted_at']);
+            $table->index(['created_at', 'deleted_at']);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

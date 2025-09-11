@@ -16,6 +16,8 @@ class Location extends MainModel
         'region_id',
     ];
 
+   
+
 
     public function city()
     {
@@ -27,5 +29,10 @@ class Location extends MainModel
         return $this->belongsTo(Region::class);
     }
 
-    
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_location')
+            ->withPivot('primary_location')
+            ->withTimestamps();
+    }
 }

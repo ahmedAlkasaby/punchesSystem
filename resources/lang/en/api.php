@@ -56,5 +56,12 @@ return [
     'payment_success'=>'Payment Success',
     'payment_failed'=>'Payment Failed',
 
+    'punch' => [
+        'out_of_radius' => "📍 Punch recorded but you are outside the allowed location",
+        'late' => "⏰ Punch recorded but you are late",
+        'early_leave' => "🕒 Punch recorded but you left early",
+        'approved' => "✅ Punch recorded successfully",
+    ],
+
 
 ];

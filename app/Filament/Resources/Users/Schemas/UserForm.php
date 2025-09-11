@@ -46,7 +46,7 @@ class UserForm
                     ->default('light')
                     ->required(),
                 Select::make('type')
-                    ->options(['admin' => __('site.admin'), 'client' => __('site.client')])
+                    ->options(['admin' => __('site.admin'), 'employee' => __('site.employee')])
                     ->default('admin')
                     ->required(),
                 Select::make('roles')
@@ -55,6 +55,14 @@ class UserForm
                     ->relationship('roles', 'name') 
                     ->preload() 
                     ->searchable(),
+                Select::make('locations')
+                    ->label(__('site.locations'))
+                    ->multiple()
+                    ->relationship('locations', 'name', fn ($query) => $query->active())
+                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->nameLang())
+                    ->preload()
+                    ->searchable(),
+                
             ]);
     }
 }

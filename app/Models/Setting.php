@@ -16,7 +16,6 @@ class Setting extends MainModel
 
     protected $casts = [
         'weekend_days' => 'array',
-        'work_start' => 'datetime:H:i',
-        'work_end' => 'datetime:H:i',
+      
     ];
 }
