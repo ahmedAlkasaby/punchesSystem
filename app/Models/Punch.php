@@ -24,7 +24,11 @@ class Punch extends MainModel
         'distance_from_location',
         'device_info',
         'note',
+        'punched_at',
     ];
+
+   
+
 
 
    

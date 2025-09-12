@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Holiday extends MainModel
 {
+    protected $table = 'holidays';
     protected $fillable = [
         'name',
         'description',
@@ -15,6 +16,8 @@ class Holiday extends MainModel
     ];
 
     protected $casts = [
+         'name' => \App\Casts\UnescapedJson::class,
+        'description' => \App\Casts\UnescapedJson::class,
         'date' => 'date',
         'active' => 'boolean',
     ];

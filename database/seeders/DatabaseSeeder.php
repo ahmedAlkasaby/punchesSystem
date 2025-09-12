@@ -45,7 +45,8 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             CitySeeder::class,
             LocationSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
+            HolidaySeeder::class,
         ]);
     }
 }

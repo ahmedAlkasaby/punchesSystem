@@ -62,6 +62,14 @@ return [
         'early_leave' => "🕒 Punch recorded but you left early",
         'approved' => "✅ Punch recorded successfully",
     ],
+  
+
+
+
+    'holiday' => 'Today is a holiday: :name',
+    'weekend' => 'Today is a weekend day: :day',
+    'daily_punch_limit' => 'You have reached the maximum number of punches for today',
+
 
 
 ];

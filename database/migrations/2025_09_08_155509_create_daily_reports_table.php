@@ -36,7 +36,7 @@ return new class extends Migration
             $table->boolean('flagged_in')->default(false);
             $table->boolean('flagged_out')->default(false);
             $table->json('notes')->nullable();
-            $table->timestamp('computed_at')->nullable();
+            $table->dateTime('computed_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

@@ -32,6 +32,7 @@ class PunchController extends MainController
             $data['location_id'] = $locationId;
             $data['distance_from_location'] = $distance;
         }
+        $data['punched_at'] = now();
         $punch = Punch::create($data);
         $messages = $this->punchService->getMessages(
             $punch->approved,

@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('device_info')->nullable();
             $table->double('distance_from_location')->nullable()->comment('Distance in meters from the assigned location');
             $table->text('note')->nullable();
+            $table->dateTime('punched_at');
             $table->timestamps();
             $table->softDeletes();
         });
