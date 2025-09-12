@@ -12,7 +12,15 @@ class PunchService
 {
     public function getTypePunchOfUser($userId)
     {
-        $punch = Punch::getLastPunchOfUserToday($userId);
+        $user = User::find($userId);
+        $punch = null;
+    
+
+        if ($user->last_punched_at !== null) {
+            $punch = Punch::where('punched_at', $user->last_punched_at)->first();
+        }else{
+            $punch = Punch::getLastPunchOfUserToday($userId);
+        }
     
         if (!$punch) {
             return 'in';

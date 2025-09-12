@@ -39,7 +39,7 @@ Route::group(['middleware'=>['userLangApi']],function(){
         Route::post('rest/password',[RestPasswordController::class,'RestPassword']);
     });
 
-    Route::group(['middleware'=>['auth-api','userLangApi','limit.daily.punches']],function(){
+    Route::group(['middleware'=>['auth-api','userLangApi','prevent.attendance','limit.daily.punches']],function(){
         Route::post('punches',[PunchController::class,'store']);
     });
   

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->boolean('active')->default(true);
             $table->enum('lang', ['en', 'ar'])->default('en');
             $table->enum('theme', ['light', 'dark'])->default('light');
+            $table->dateTime('last_punched_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

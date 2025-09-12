@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Punch;
+use App\Observers\PunchObserver;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,9 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-       
+        Punch::observe(PunchObserver::class);
 
-    
    
     }
 }

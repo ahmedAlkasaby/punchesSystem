@@ -61,6 +61,7 @@ return [
         'late' => "⏰ Punch recorded but you are late",
         'early_leave' => "🕒 Punch recorded but you left early",
         'approved' => "✅ Punch recorded successfully",
+        'issue_detected' => "⚠️ Issue detected",
     ],
   
 

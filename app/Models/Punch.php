@@ -41,13 +41,13 @@ class Punch extends MainModel
         return $this->belongsTo(Location::class);
     }
 
-     public static function getLastPunchOfUserToday($userId)
+    public static function getLastPunchOfUserToday($userId)
     {
         $today = Carbon::today();
-
+    
         return self::where('user_id', $userId)
-            ->whereDate('created_at', $today)
-            ->orderByDesc('created_at')
+            ->whereDate('punched_at', $today) 
+            ->orderByDesc('punched_at')
             ->first();
     }
 
