@@ -21,20 +21,21 @@ return new class extends Migration
             $table->decimal('total_hours', 8, 2)->default(0);
 
             // الحالة العامة لليوم
-            $table->enum('day_status', ['present', 'absent', 'holiday', 'exception'])->default('present');
+            $table->enum('day_status', ['present', 'absent'])->default('absent');
+            $table->foreignId('exception_id')->nullable()->constrained('exceptions')->onDelete('cascade');
             $table->string('exception_type')->nullable();
 
             // flags
-            $table->boolean('is_late')->default(false);
+            $table->boolean('is_late')->nullable();
             $table->integer('late_seconds')->default(0);
-            $table->boolean('is_early_leave')->default(false);
-            $table->boolean('is_under_hours')->default(false);
+            $table->boolean('is_early_leave')->nullable();
+            $table->boolean('is_under_hours')->nullable();
 
             // مشاكل البصمات
             $table->boolean('has_missing_in')->default(false);
             $table->boolean('has_missing_out')->default(false);
-            $table->boolean('flagged_in')->default(false);
-            $table->boolean('flagged_out')->default(false);
+            $table->boolean('flagged_in')->nullable();
+            $table->boolean('flagged_out')->nullable();
             $table->json('notes')->nullable();
             $table->dateTime('computed_at')->nullable();
             $table->timestamps();

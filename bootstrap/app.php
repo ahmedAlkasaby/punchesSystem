@@ -17,6 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'userLangApi' => \App\Http\Middleware\SetUserApiLangMiddleware::class,
             'prevent.attendance' => \App\Http\Middleware\PreventAttendanceOnHoliday::class,
             'limit.daily.punches' => \App\Http\Middleware\LimitDailyPunches::class,
+            'check.punch.time' => \App\Http\Middleware\CheckPunchTime::class,
+
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

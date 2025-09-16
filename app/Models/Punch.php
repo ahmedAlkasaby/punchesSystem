@@ -13,6 +13,8 @@ class Punch extends MainModel
         'type',
         'is_late',
         'is_early_leave',
+        'late_seconds',
+        'early_leave_seconds',
         'is_out_of_radius',
         'approved',
         'approved_by',
@@ -26,6 +28,11 @@ class Punch extends MainModel
         'note',
         'punched_at',
     ];
+
+    protected $casts = [
+    'punched_at' => 'datetime',
+   ];
+
 
    
 

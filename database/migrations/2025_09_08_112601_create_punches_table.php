@@ -17,6 +17,8 @@ return new class extends Migration
             $table->enum('type', ['in', 'out']);
             $table->boolean('is_late')->nullable();
             $table->boolean('is_early_leave')->nullable();
+            $table->double('late_seconds')->nullable();
+            $table->double('early_leave_seconds')->nullable();
             $table->boolean('is_out_of_radius')->default(false);
             $table->boolean('approved')->default(false);
             $table->foreignId('approved_by')->nullable()->constrained('users')->nullOnDelete();

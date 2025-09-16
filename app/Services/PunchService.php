@@ -10,6 +10,25 @@ use Carbon\Carbon;
 
 class PunchService
 {
+
+    public function canPunchNow($type)
+    {
+        $settings = Setting::first();
+        if (!$settings || !$settings->work_start || !$settings->work_end) {
+            return true; 
+        }
+    
+        $now = now();
+        $workStart = Carbon::parse(today()->toDateString() . ' ' . $settings->work_start);
+        $workEnd   = Carbon::parse(today()->toDateString() . ' ' . $settings->work_end);
+    
+        if ($type === 'in' && $now->greaterThan($workEnd)) {
+            return false; 
+        }
+    
+        return true;
+    }
+
     public function getTypePunchOfUser($userId)
     {
         $user = User::find($userId);
@@ -49,6 +68,66 @@ class PunchService
 
         return $now->greaterThan($workStart);
     }
+
+    public function getLateSeconds($isLate)
+    {
+        if ($isLate !== true) {
+            return 0;
+        }
+    
+        $settings = Setting::first();
+        if (!$settings || !$settings->work_start) {
+            return 0;
+        }
+    
+        $graceMinutes = $settings->allowed_late_minutes ?? 0;
+    
+        $workStart = Carbon::parse(today()->toDateString() . ' ' . $settings->work_start)
+            ->addMinutes($graceMinutes);
+    
+        $now = Carbon::parse(now());
+    
+        if ($now->lessThanOrEqualTo($workStart)) {
+            return 0;
+        }
+    
+        return $now->diffInSeconds($workStart);
+    }
+
+
+
+    
+
+    public function getEarlyLeaveSecands($isEarlyLeave)
+    {
+        if ($isEarlyLeave !== true) {
+            return 0;
+        }
+    
+        $settings = Setting::first();
+        if (!$settings || !$settings->work_end) {
+            return 0;
+        }
+    
+        $graceMinutes = $settings->early_leave_grace ?? 0;
+    
+        // وقت نهاية الدوام - فترة السماح
+        $workEnd = Carbon::parse(today()->toDateString() . ' ' . $settings->work_end)
+            ->subMinutes($graceMinutes);
+    
+        $now = now();
+    
+        // لو خارج في معاده أو بعده → صفر
+        if ($now->greaterThanOrEqualTo($workEnd)) {
+            return 0;
+        }
+    
+        // رجع الفرق بالثواني
+        return $workEnd->diffInSeconds($now);
+    }
+
+
+   
 
     public function checkEarlyPunch($typePunch)
     {
