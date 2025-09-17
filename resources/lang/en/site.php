@@ -58,5 +58,7 @@ return[
     'out_redis'=>'Out Redius',
     'pending'=>'Pending',
     'rejected'=>'Rejected',
+    'employee'=>'Employee',
+    'employees'=>'Employees',
 ];
     

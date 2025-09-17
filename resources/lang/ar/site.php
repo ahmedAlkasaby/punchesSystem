@@ -67,4 +67,6 @@ return [
     'out_redis'=>'خارج الحدود',
     'pending'=>'قيد الانتظار',
     'rejected'=>'مرفوض',
+    'employee'=>'موظف',
+    'employees'=>'الموظفين',
 ];

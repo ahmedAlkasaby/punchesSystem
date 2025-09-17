@@ -36,7 +36,7 @@ class UserResource extends Resource implements HasShieldPermissions
     }
     
 
-     public static function getNavigationLabel(): string
+    public static function getNavigationLabel(): string
     {
         return __('site.users');
     }
