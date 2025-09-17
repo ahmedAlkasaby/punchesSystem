@@ -61,7 +61,7 @@ return [
     'old'=>'القديم',
     'new'=>'الجديد',
     'close'=>'إغلاق',
-    'approved'=>'معتمد',
+    'approved'=>'مقبول',
     'late'=>'متأخر',
     'early_leave'=>'مغادرة مبكرة',
     'out_redis'=>'خارج الحدود',
@@ -69,4 +69,17 @@ return [
     'rejected'=>'مرفوض',
     'employee'=>'موظف',
     'employees'=>'الموظفين',
+    'punches'=>'البصمات',
+    'punch'=>'بصمة',
+    'date'=>'التاريخ',
+    'time'=>'الوقت',
+    'in'=>'دخول',
+    'out'=>'خروج',
+    'total_duration'=>'مدة الحيازة',
+    'duration'=>'مدة الحيازة',
+    'punched_at'=>'وقت البصمة',
+    'late_seconds'=>'مدة المتاخر',
+    'early_leave_seconds'=>'مدة مغادرة مبكرة',
+    
+  
 ];

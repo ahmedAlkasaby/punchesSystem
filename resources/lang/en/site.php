@@ -60,5 +60,17 @@ return[
     'rejected'=>'Rejected',
     'employee'=>'Employee',
     'employees'=>'Employees',
+    'punches'=>'Punches',
+    'punch'=>'Punch',
+    'date'=>'Date',
+    'time'=>'Time',
+    'in'=>'In',
+    'out'=>'Out',
+    'total_duration'=>'Total Duration',
+    'duration'=>'Duration',
+    'punched_at'=>'Punched At',
+    'late_seconds'=>'Late Seconds',
+    'early_leave_seconds'=>'Early Leave Seconds',
+    
 ];
     

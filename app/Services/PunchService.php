@@ -15,36 +15,49 @@ class PunchService
     {
         $settings = Setting::first();
         if (!$settings || !$settings->work_start || !$settings->work_end) {
-            return true; 
+            return ['allowed' => true, 'message' => null];
         }
-    
+
         $now = now();
         $workStart = Carbon::parse(today()->toDateString() . ' ' . $settings->work_start);
         $workEnd   = Carbon::parse(today()->toDateString() . ' ' . $settings->work_end);
-    
+
+        // ممنوع دخول بعد انتهاء الدوام
         if ($type === 'in' && $now->greaterThan($workEnd)) {
-            return false; 
+            return [
+                'allowed' => false,
+                'message' => __('api.punch_after_work_end'), // ⏰ Attendance is closed, you cannot check in after working hours
+            ];
         }
-    
-        return true;
+
+        // ممنوع خروج قبل بداية الدوام
+        if ($type === 'out' && $now->lessThan($workStart)) {
+            return [
+                'allowed' => false,
+                'message' => __('api.punch_before_work_start'), // 🚫 You cannot check out before working hours
+            ];
+        }
+
+        return ['allowed' => true, 'message' => null];
     }
+
 
     public function getTypePunchOfUser($userId)
     {
         $user = User::find($userId);
         $punch = null;
-    
+
 
         if ($user->last_punched_at !== null) {
             $punch = Punch::where('punched_at', $user->last_punched_at)->first();
-        }else{
+        } else {
             $punch = Punch::getLastPunchOfUserToday($userId);
         }
-    
+
         if (!$punch) {
             return 'in';
         }
-    
+
         return $punch->type === 'in' ? 'out' : 'in';
     }
 
@@ -64,7 +77,7 @@ class PunchService
 
         $workStart = Carbon::parse(today()->toDateString() . ' ' . $settings->work_start)
             ->addMinutes($graceMinutes);
-        $now= now();
+        $now = now();
 
         return $now->greaterThan($workStart);
     }
@@ -74,60 +87,60 @@ class PunchService
         if ($isLate !== true) {
             return 0;
         }
-    
+
         $settings = Setting::first();
         if (!$settings || !$settings->work_start) {
             return 0;
         }
-    
+
         $graceMinutes = $settings->allowed_late_minutes ?? 0;
-    
+
         $workStart = Carbon::parse(today()->toDateString() . ' ' . $settings->work_start)
             ->addMinutes($graceMinutes);
-    
+
         $now = Carbon::parse(now());
-    
+
         if ($now->lessThanOrEqualTo($workStart)) {
             return 0;
         }
-    
+
         return $now->diffInSeconds($workStart);
     }
 
 
 
-    
+
 
     public function getEarlyLeaveSecands($isEarlyLeave)
     {
         if ($isEarlyLeave !== true) {
             return 0;
         }
-    
+
         $settings = Setting::first();
         if (!$settings || !$settings->work_end) {
             return 0;
         }
-    
+
         $graceMinutes = $settings->early_leave_grace ?? 0;
-    
+
         // وقت نهاية الدوام - فترة السماح
         $workEnd = Carbon::parse(today()->toDateString() . ' ' . $settings->work_end)
             ->subMinutes($graceMinutes);
-    
+
         $now = now();
-    
+
         // لو خارج في معاده أو بعده → صفر
         if ($now->greaterThanOrEqualTo($workEnd)) {
             return 0;
         }
-    
+
         // رجع الفرق بالثواني
         return $workEnd->diffInSeconds($now);
     }
 
 
-   
+
 
     public function checkEarlyPunch($typePunch)
     {
@@ -144,7 +157,7 @@ class PunchService
 
         $workEnd = Carbon::parse(today()->toDateString() . ' ' . $settings->work_end)
             ->subMinutes($graceMinutes);
-        $now= now();
+        $now = now();
 
         return $now->lessThan($workEnd);
     }
@@ -204,7 +217,7 @@ class PunchService
         $user = User::with('locations')->find($userId);
 
         if (!$user || !$user->locations || $user->locations->isEmpty()) {
-            return [null, null]; 
+            return [null, null];
         }
 
         $nearestLocation = null;
@@ -218,7 +231,7 @@ class PunchService
                 $location->longitude
             );
 
-          
+
             if (is_null($nearestDistance) || $distance < $nearestDistance) {
                 $nearestLocation = $location;
                 $nearestDistance = $distance;
@@ -232,27 +245,23 @@ class PunchService
     public function getMessages($isApproved, $isOutOfRadius, $isLate, $isEarlyLeave)
     {
         $messages = [];
-    
+
         if ($isOutOfRadius) {
             $messages[] = __('api.punch.out_of_radius');
         }
-    
+
         if ($isLate) {
             $messages[] = __('api.punch.late');
         }
-    
+
         if ($isEarlyLeave) {
             $messages[] = __('api.punch.early_leave');
         }
-    
+
         if ($isApproved && empty($messages)) {
             $messages[] = __('api.punch.approved');
         }
-    
+
         return $messages;
     }
-
-
-
-  
 }

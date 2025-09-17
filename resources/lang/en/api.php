@@ -71,6 +71,7 @@ return [
     'weekend' => 'Today is a weekend day: :day',
     'daily_punch_limit' => 'You have reached the maximum number of punches for today',
     'punch_after_work_end' => '⏰ Attendance is closed, you cannot check in after working hours',
+    'punch_before_work_start' => '🚫 You cannot check out before working hours',
 
 
 

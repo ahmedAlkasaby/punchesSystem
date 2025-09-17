@@ -22,9 +22,9 @@ class PunchController extends MainController
         $data['user_id'] = $userId;
         $data['type'] = $this->punchService->getTypePunchOfUser($userId);
         $data['is_late'] = $data['type'] == 'in' ? $this->punchService->checkLatePunch($data['type']) : null;
-        $data['late_seconds'] = $this->punchService->getLateSeconds($data['is_late']);
+        $data['late_seconds'] =$data['is_late']==true ? $this->punchService->getLateSeconds($data['is_late']) : null;
         $data['is_early_leave'] = $data['type'] == 'out' ? $this->punchService->checkEarlyPunch($data['type']) : null;
-        $data['early_leave_seconds'] = $this->punchService->getEarlyLeaveSecands($data['is_early_leave']);
+        $data['early_leave_seconds'] =$data['is_early_leave'] == true ? $this->punchService->getEarlyLeaveSecands($data['is_early_leave']) : null;
         $data['is_out_of_radius'] = $this->punchService->checkOutOfRadiusForUserLocations($userId, $data['latitude'], $data['longitude']);
         $data['approved'] = $this->punchService->checkApproved($data['is_late'], $data['is_early_leave'], $data['is_out_of_radius']);
         if ($data['is_out_of_radius'] == false) {

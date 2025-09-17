@@ -18,19 +18,19 @@ class CheckPunchTime
     }
     public function handle(Request $request, Closure $next)
     {
-        $userId=auth()->guard('api')->id();
-       
-        $type = $this->punchService->getTypePunchOfUser($userId);
-
-        if($this->punchService->canPunchNow($type)){
+        $userId = auth()->guard('api')->id();
+        $type   = $this->punchService->getTypePunchOfUser($userId);
+    
+        $result = $this->punchService->canPunchNow($type);
+    
+        if ($result['allowed']) {
             return $next($request);
         }
-
+    
         return response()->json([
             'success' => false,
-            'message' => __('api.punch_after_work_end'),
-
+            'message' => $result['message'],
         ], 403);
-       
     }
+
 }
