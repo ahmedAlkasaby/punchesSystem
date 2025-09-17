@@ -71,6 +71,9 @@ return[
     'punched_at'=>'Punched At',
     'late_seconds'=>'Late Seconds',
     'early_leave_seconds'=>'Early Leave Seconds',
+    'address'=>'Address',
+    'device_info'=>'Device Info',
+    'distance_from_location'=>'Distance From Location',
     
 ];
     

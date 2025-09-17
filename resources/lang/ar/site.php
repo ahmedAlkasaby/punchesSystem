@@ -80,6 +80,10 @@ return [
     'punched_at'=>'وقت البصمة',
     'late_seconds'=>'مدة المتاخر',
     'early_leave_seconds'=>'مدة مغادرة مبكرة',
+    'address'=>'العنوان',
+    'device_info'=>'معلومات الجهاز',
+    'distance_from_location'=>'المسافة بين الموقع',
+
     
   
 ];
