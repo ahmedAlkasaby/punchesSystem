@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Punch;
 use App\Models\User;
 use Filament\Schemas\Components\Utilities\Set;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -47,6 +48,7 @@ class DatabaseSeeder extends Seeder
             LocationSeeder::class,
             UserSeeder::class,
             HolidaySeeder::class,
+            PunchSeeder::class
         ]);
     }
 }
