@@ -65,7 +65,9 @@ class AttendanceService
                     $out->addDay();
                 }
 
-                $totalSeconds = max(0, $out->diffInSeconds($in));
+                $totalSeconds =  $in->diffInSeconds($out);
+               
+
 
                 $result['total_seconds'] = $totalSeconds;
                 $result['total_hours'] = round($totalSeconds / 3600, 2);
