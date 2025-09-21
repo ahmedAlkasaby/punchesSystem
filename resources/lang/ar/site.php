@@ -83,6 +83,19 @@ return [
     'address'=>'العنوان',
     'device_info'=>'معلومات الجهاز',
     'distance_from_location'=>'المسافة بين الموقع',
+    'hours'=>'ساعات',
+    'minutes'=>'دقايق',
+    'seconds'=>'ثواني',
+    'hour'=>'ساعة',
+    'minute'=>'دقيقة',
+    'second'=>'ثانية',
+    'note'=>'ملاحظة',
+    'note_required'=>'ملاحظة مطلوبة',
+    'note_optional'=>'ملاحظة غير مطلوبة',
+    'meter'=>'متر',
+    'kilometer'=>'كيلومتر',
+    'from_date'=>'من تاريخ',
+    'to_date'=>'إلى تاريخ',
 
     
   

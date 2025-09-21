@@ -8,8 +8,11 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
@@ -44,7 +47,7 @@ class PunchesTable
                 IconColumn::make('is_late')
                     ->label(__('site.late'))
                     ->boolean(),
-                TextColumn::make('late_seconds')
+                TextColumn::make('late_formatted')
                     ->label(__('site.late_seconds'))
                     ->numeric()
                     ->sortable()
@@ -53,7 +56,7 @@ class PunchesTable
                     ->label(__('site.early_leave'))
                     ->boolean(),
               
-                TextColumn::make('early_leave_seconds')
+                TextColumn::make('early_leave_formatted')
                     ->label(__('site.early_leave_seconds'))
                     ->numeric()
                     ->sortable()
@@ -64,28 +67,7 @@ class PunchesTable
                 IconColumn::make('approved')
                     ->label(__('site.approved'))
                     ->boolean(),
-                // TextColumn::make('approved_by')
-                //     ->numeric()
-                //     ->sortable(),
-                // TextColumn::make('approved_at')
-                //     ->dateTime()
-                //     ->sortable(),
-                // TextColumn::make('location_id')
-                //     ->numeric()
-                //     ->sortable(),
-                // TextColumn::make('latitude')
-                //     ->numeric()
-                //     ->sortable(),
-                // TextColumn::make('longitude')
-                //     ->numeric()
-                //     ->sortable(),
-                // TextColumn::make('address')
-                //     ->searchable(),
-                // TextColumn::make('device_info')
-                //     ->searchable(),
-                // TextColumn::make('distance_from_location')
-                //     ->numeric()
-                //     ->sortable(),
+              
                 TextColumn::make('punched_at')
                     ->label(__('site.punched_at'))
                     ->dateTime() 
@@ -93,7 +75,40 @@ class PunchesTable
               
             ])
             ->filters([
-                TrashedFilter::make(),
+                Filter::make('punched_at')
+                ->form([
+                    DatePicker::make('date')
+                        ->label(__('site.date')),
+                ])
+                ->query(function ($query, array $data) {
+                    return $query
+                        ->when($data['date'], fn ($q, $date) =>
+                            $q->whereDate('punched_at', $date)
+                        );
+                }),
+                 Filter::make('punched_at_range')
+                ->form([
+                    DatePicker::make('from')->label(__('site.from_date')),
+                    DatePicker::make('until')->label(__('site.to_date')),
+                ])
+                ->query(function ($query, array $data) {
+                    return $query
+                        ->when($data['from'], fn ($q, $date) =>
+                            $q->whereDate('punched_at', '>=', $date)
+                        )
+                        ->when($data['until'], fn ($q, $date) =>
+                            $q->whereDate('punched_at', '<=', $date)
+                        );
+                }),
+                SelectFilter::make('employee')
+                    ->label(__('site.employee'))
+                    ->relationship(
+                        name: 'employee',
+                        titleAttribute: 'name', 
+                    )
+                    ->searchable()
+                    ->preload()
+
             ])
             ->recordActions([
                 ViewAction::make(),

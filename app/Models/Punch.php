@@ -43,6 +43,11 @@ class Punch extends MainModel
     {
         return $this->belongsTo(User::class);
     }
+
+     public function employee()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id')->where('type', 'employee');
+    }
     public function location()
     {
         return $this->belongsTo(Location::class);
@@ -57,6 +62,57 @@ class Punch extends MainModel
             ->orderByDesc('punched_at')
             ->first();
     }
+
+    public function getLateFormattedAttribute()
+    {
+        if (!$this->late_seconds) {
+            return null;
+        }
+    
+        $hours = floor($this->late_seconds / 3600);
+        $minutes = floor(($this->late_seconds % 3600) / 60);
+    
+        if ($hours > 0) {
+            return $hours . ' ' . __('site.hour') . ($minutes > 0 ? ' ' . $minutes . ' ' . __('site.minute') : '');
+        }
+    
+        return $minutes . ' ' . __('site.minute');
+    }
+
+     public function getEarlyLeaveFormattedAttribute()
+    {
+        if (!$this->early_leave_seconds) {
+            return null;
+        }
+    
+        $hours = floor($this->early_leave_seconds / 3600);
+        $minutes = floor(($this->early_leave_seconds % 3600) / 60);
+    
+        if ($hours > 0) {
+            return $hours . ' ' . __('site.hour') . ($minutes > 0 ? ' ' . $minutes . ' ' . __('site.minute') : '');
+        }
+    
+        return $minutes . ' ' . __('site.minute');
+    }
+
+    public function getDistanceFormattedAttribute()
+    {
+        if (is_null($this->distance_from_location)) {
+            return null;
+        }
+    
+        $distance = $this->distance_from_location;
+    
+        if ($distance < 1000) {
+            // أقل من ١ كم → أظهر بالمتر
+            return round($distance) . ' ' . __('site.meter');
+        }
+    
+        // ١ كم فأكثر → أظهر بالكيلومتر
+        return number_format($distance / 1000, 2) . ' ' . __('site.kilometer');
+    }
+
+
 
 
 }

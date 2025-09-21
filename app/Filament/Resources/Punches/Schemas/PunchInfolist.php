@@ -29,13 +29,13 @@ class PunchInfolist
                 IconEntry::make('is_late')
                     ->label(__('site.late'))
                     ->boolean(),
-                TextEntry::make('late_seconds')
+                TextEntry::make('late_formatted')
                     ->label(__('site.late_seconds'))
                     ->numeric(),
                 IconEntry::make('is_early_leave')
                     ->label(__('site.early_leave'))
                     ->boolean(),
-                TextEntry::make('early_leave_seconds')
+                TextEntry::make('early_leave_formatted')
                     ->label(__('site.early_leave_seconds'))
                     ->numeric(),
                 IconEntry::make('is_out_of_radius')
@@ -57,7 +57,7 @@ class PunchInfolist
                     ->formatStateUsing(fn($state) => $state ?: __('site.no_address')),
                 TextEntry::make('device_info')
                     ->label(__('site.device_info')),
-                TextEntry::make('distance_from_location')
+                TextEntry::make('distance_formatted')
                     ->label(__('site.distance_from_location'))
                     ->numeric(),
                 TextEntry::make('punched_at')

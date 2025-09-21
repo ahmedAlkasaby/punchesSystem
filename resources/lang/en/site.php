@@ -74,6 +74,19 @@ return[
     'address'=>'Address',
     'device_info'=>'Device Info',
     'distance_from_location'=>'Distance From Location',
+    'hours'=>'Hours',
+    'minutes'=>'Minutes',
+    'seconds'=>'Seconds',
+    'hour'=>'Hour',
+    'minute'=>'Minute',
+    'second'=>'Second',
+    'note'=>'Note',
+    'note_required'=>'Note Required',
+    'note_optional'=>'Note Optional',
+    'meter'=>'Meter',
+    'kilometer'=>'Kilometer',
+    'from_date'=>'From Date',
+    'to_date'=>'To Date',
     
 ];
     
