@@ -26,8 +26,21 @@ class ActivityLogPolicy
         return $user->can('view_activity::logs::activity::log');
     }
 
-   
-   
+    /**
+     * Determine whether the user can create models.
+     */
+    public function create(User $user): bool
+    {
+        return $user->can('{{ Create }}');
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     */
+    public function update(User $user, ActivityLog $activityLog): bool
+    {
+        return $user->can('{{ Update }}');
+    }
 
     /**
      * Determine whether the user can delete the model.

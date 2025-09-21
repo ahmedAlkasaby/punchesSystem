@@ -18,7 +18,7 @@ class AttendanceService
      */
     public function computeDailyAttendanceByIds(int $employeeId, string $dateLocalString)
     {
-        $date = Carbon::parse($dateLocalString); 
+        $date = Carbon::parse($dateLocalString);
 
         $start = $date->copy()->startOfDay();
         $end   = $date->copy()->endOfDay();
@@ -31,7 +31,7 @@ class AttendanceService
             ->orderBy('punched_at')
             ->get();
 
-       
+
         $result = [
             'employee_id' => $employeeId,
             'date' => $dateLocalString,
@@ -40,41 +40,37 @@ class AttendanceService
 
         if ($punches->isNotEmpty()) {
             $result['day_status'] = 'present';
-           
-            $punchIn= $punches->where('type', 'in')->first();
-            if($punchIn){
-                $result['first_in']=$punchIn->punched_at;
-                $result['has_missing_in']=false;
-                $result['is_late']=$punchIn->is_late;
-                $result['late_seconds']=$punchIn->late_seconds;
-                $result['flagged_in']=$punchIn->is_out_of_radius;
+
+            $punchIn = $punches->where('type', 'in')->first();
+            if ($punchIn) {
+                $result['first_in'] = Carbon::parse($punchIn->punched_at)->format('H:i:s');
+                $result['has_missing_in'] = false;
+                $result['is_late'] = $punchIn->is_late;
+                $result['late_seconds'] = $punchIn->late_seconds ?? 0;
+                $result['flagged_in'] = $punchIn->is_out_of_radius;
             }
-            $punchOut= $punches->where('type', 'out')->first();
-            if($punchOut){
-                $result['last_out']=$punchOut->punched_at;
-                $result['has_missing_out']=false;
-                $result['is_early_leave']=$punchOut->is_early_leave;
-                $result['early_leave_seconds']=$punchOut->early_leave_seconds;
-                $result['flagged_out']=$punchOut->is_out_of_radius;
+            $punchOut = $punches->where('type', 'out')->first();
+            if ($punchOut) {
+                $result['last_out'] = Carbon::parse($punchOut->punched_at)->format('H:i:s');
+                $result['has_missing_out'] = false;
+                $result['is_early_leave'] = $punchOut->is_early_leave;
+                $result['early_leave_seconds'] = $punchOut->early_leave_seconds ?? 0;
+                $result['flagged_out'] = $punchOut->is_out_of_radius;
             }
-            if ($punchIn && $punchOut ) {
-                $totalSeconds = max(0,  $result['last_out']->diffInSeconds($result['first_in']));
+            if ($punchIn && $punchOut) {
+                $in  = Carbon::createFromFormat('H:i:s', $result['first_in']);
+                $out = Carbon::createFromFormat('H:i:s', $result['last_out']);
+
+                if ($out->lessThan($in)) {
+                    $out->addDay();
+                }
+
+                $totalSeconds = max(0, $out->diffInSeconds($in));
+
                 $result['total_seconds'] = $totalSeconds;
                 $result['total_hours'] = round($totalSeconds / 3600, 2);
-                $result['is_under_hours']=$result['total_hours']<$settings->min_hours;
+                $result['is_under_hours'] = $result['total_hours'] < $settings->min_hours;
             }
-            
-
-
-          
-
-           
-
-           
-
-          
-
-          
         }
 
         // حفظ النتيجة + التحقق من الاستثناء
@@ -95,7 +91,7 @@ class AttendanceService
 
         if ($exception) {
             $result['exception_id'] = $exception->id;
-            $result['exception_type'] = $exception->type;  
+            $result['exception_type'] = $exception->type;
         }
 
         return DailyReport::updateOrCreate(

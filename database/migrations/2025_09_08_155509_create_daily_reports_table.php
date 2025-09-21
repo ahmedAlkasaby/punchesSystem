@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('employee_id')->constrained('users')->onDelete('cascade');
             $table->date('date')->index();
-            $table->timestamp('first_in')->nullable();
-            $table->timestamp('last_out')->nullable();
+           
+            $table->time('first_in')->nullable();
+            $table->time('last_out')->nullable();
+
             $table->integer('total_seconds')->default(0);
             $table->decimal('total_hours', 8, 2)->default(0);
 
