@@ -26,6 +26,13 @@ class DailyReportPolicy
         return $user->can('view_daily::reports::daily::report');
     }
 
+    public function export(User $user, DailyReport $dailyReport): bool
+    {
+        return $user->can('export_daily::reports::daily::report');
+    }
+
+
+
     /**
      * Determine whether the user can create models.
      */

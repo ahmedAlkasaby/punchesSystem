@@ -115,6 +115,8 @@ return[
     'compute_failed'=>'Failed to compute daily attendance.',
     'row'=>'row',
     'rows'=>'rows',
+    'trash_bucket'=>'Trash Bucket',
+    'trash_buckets'=>'Trash Buckets',
     
 ];
     

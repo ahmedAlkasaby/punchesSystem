@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\DailyReports\Tables;
 
 use App\Filament\Exports\DailyReportExporter;
+use App\Models\DailyReport;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -89,7 +90,9 @@ class DailyReportsTable
                 ExportAction::make()
                     ->exporter(DailyReportExporter::class)
                     ->authorize(fn () => auth()->user()->can('export_daily::reports::daily::report')),
-            ])
+
+
+            ]) 
             ->filters([
                
             ])
@@ -100,9 +103,7 @@ class DailyReportsTable
                 BulkActionGroup::make([
                     ExportBulkAction::make()
                          ->exporter(DailyReportExporter::class)
-                         ->authorize(fn () => auth()->user()->can('export_daily::reports::daily::report')),
-                
-                ]),
+                        ->authorize(fn () => auth()->user()->can('export_daily::reports::daily::report')),]),
             ]);
     }
 }
