@@ -19,7 +19,7 @@ class DailyReportExporter extends Exporter
     $secondsToHourMin = fn($s) => ($s === null || $s === '') ? '' : sprintf('%d:%02d', (int)floor($s / 3600), (int)floor(($s % 3600) / 60));
 
     return [
-        ExportColumn::make('id')->label('المعرف'),
+        ExportColumn::make('id')->label('الرقم المميز'),
 
         // relation: employee name (fall back to raw state)
         ExportColumn::make('employee.name')
@@ -103,10 +103,10 @@ class DailyReportExporter extends Exporter
 }
     public static function getCompletedNotificationBody(Export $export): string
     {
-        $body = 'Your daily report export has completed and ' . Number::format($export->successful_rows) . ' ' . str('row')->plural($export->successful_rows) . ' exported.';
+        $body = __('site.export_completed') . Number::format($export->successful_rows) . ' ' . trans_choice('site.row', $export->successful_rows) . __('site.exported');
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
-            $body .= ' ' . Number::format($failedRowsCount) . ' ' . str('row')->plural($failedRowsCount) . ' failed to export.';
+            $body .= ' ' . Number::format($failedRowsCount) . ' ' . trans_choice('site.row', $failedRowsCount) . __('site.export_failed');
         }
 
         return $body;

@@ -107,6 +107,14 @@ return[
     'daily_report'=>'Daily Report',
     'exception'=>'Exception',
     'exceptions'=>'Exceptions',
+    'export_completed'=>'Your daily report export has completed and ',
+    'exported'=>' exported.',
+    'export_failed'=>' failed to export.',
+    'export'=>'Export',
+    'computed_successfully'=>'Daily attendance computed successfully.',
+    'compute_failed'=>'Failed to compute daily attendance.',
+    'row'=>'row',
+    'rows'=>'rows',
     
 ];
     

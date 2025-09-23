@@ -30,6 +30,7 @@ class DailyReportResource extends Resource implements HasShieldPermissions
         return [
             'view',
             'view_any',
+            'export'
         ];
     }
     

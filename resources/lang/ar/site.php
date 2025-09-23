@@ -116,6 +116,16 @@ return [
     'daily_report'=>'التقرير اليومي',
     'exception'=>'الإستثناء',
     'exceptions'=>'الإستثناءات',
+    'export_completed' => 'تم اكتمال تصدير تقريرك اليومي و',
+    'exported' => ' تم التصدير.',
+    'export_failed' => 'فشل في التصدير.',
+    'export' => 'تصدير',
+    'computed_successfully' => 'تم حساب الحضور اليومي بنجاح.',
+    'compute_failed' => 'فشل في حساب الحضور اليومي.',
+    'rows' => 'صفوف',
+    'row' => 'صف',
+
+
 
     
   

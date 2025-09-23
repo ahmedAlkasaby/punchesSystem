@@ -87,7 +87,8 @@ class DailyReportsTable
             ])
             ->headerActions([
                 ExportAction::make()
-                    ->exporter(DailyReportExporter::class),
+                    ->exporter(DailyReportExporter::class)
+                    ->authorize(fn () => auth()->user()->can('export_daily::reports::daily::report')),
             ])
             ->filters([
                
@@ -98,7 +99,8 @@ class DailyReportsTable
             ->toolbarActions([
                 BulkActionGroup::make([
                     ExportBulkAction::make()
-                         ->exporter(DailyReportExporter::class),
+                         ->exporter(DailyReportExporter::class)
+                         ->authorize(fn () => auth()->user()->can('export_daily::reports::daily::report')),
                 
                 ]),
             ]);
