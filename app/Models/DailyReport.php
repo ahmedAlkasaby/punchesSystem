@@ -16,4 +16,27 @@ class DailyReport extends MainModel
     {
         return $this->belongsTo(User::class, 'employee_id');
     }
+
+    public function exception()
+    {
+        return $this->belongsTo(Exception::class, 'exception_id','id');
+    }
+
+     public function getLateFormattedAttribute()
+    {
+        if (!$this->late_seconds) {
+            return null;
+        }
+    
+        $hours = floor($this->late_seconds / 3600);
+        $minutes = floor(($this->late_seconds % 3600) / 60);
+    
+        if ($hours > 0) {
+            return $hours . ' ' . __('site.hour') . ($minutes > 0 ? ' ' . $minutes . ' ' . __('site.minute') : '');
+        }
+    
+        return $minutes . ' ' . __('site.minute');
+    }
+
+
 }

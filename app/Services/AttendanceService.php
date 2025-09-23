@@ -68,7 +68,6 @@ class AttendanceService
                 $totalSeconds =  $in->diffInSeconds($out);
                
 
-
                 $result['total_seconds'] = $totalSeconds;
                 $result['total_hours'] = round($totalSeconds / 3600, 2);
                 $result['is_under_hours'] = $result['total_hours'] < $settings->min_hours;
