@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\DailyReport;
+use App\Models\Export;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class DailyReportPolicy
+class ExportPolicy
 {
     use HandlesAuthorization;
 
@@ -15,15 +15,15 @@ class DailyReportPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_daily::reports::daily::report');
+        return $user->can('view_any_exports::export');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, DailyReport $dailyReport): bool
+    public function view(User $user, Export $export): bool
     {
-        return $user->can('view_daily::reports::daily::report');
+        return $user->can('{{ View }}');
     }
 
     /**
@@ -37,7 +37,7 @@ class DailyReportPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, DailyReport $dailyReport): bool
+    public function update(User $user, Export $export): bool
     {
         return $user->can('{{ Update }}');
     }
@@ -45,7 +45,7 @@ class DailyReportPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, DailyReport $dailyReport): bool
+    public function delete(User $user, Export $export): bool
     {
         return $user->can('{{ Delete }}');
     }
@@ -61,7 +61,7 @@ class DailyReportPolicy
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, DailyReport $dailyReport): bool
+    public function forceDelete(User $user, Export $export): bool
     {
         return $user->can('{{ ForceDelete }}');
     }
@@ -77,7 +77,7 @@ class DailyReportPolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, DailyReport $dailyReport): bool
+    public function restore(User $user, Export $export): bool
     {
         return $user->can('{{ Restore }}');
     }
@@ -93,7 +93,7 @@ class DailyReportPolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, DailyReport $dailyReport): bool
+    public function replicate(User $user, Export $export): bool
     {
         return $user->can('{{ Replicate }}');
     }

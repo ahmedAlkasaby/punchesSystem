@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Filament\Resources\DailyReports;
+namespace App\Filament\Resources\Exports;
 
-use App\Filament\Resources\DailyReports\Pages\CreateDailyReport;
-use App\Filament\Resources\DailyReports\Pages\EditDailyReport;
-use App\Filament\Resources\DailyReports\Pages\ListDailyReports;
-use App\Filament\Resources\DailyReports\Pages\ViewDailyReport;
-use App\Filament\Resources\DailyReports\Schemas\DailyReportForm;
-use App\Filament\Resources\DailyReports\Schemas\DailyReportInfolist;
-use App\Filament\Resources\DailyReports\Tables\DailyReportsTable;
-use App\Models\DailyReport;
+use App\Filament\Resources\Exports\Pages\CreateExport;
+use App\Filament\Resources\Exports\Pages\EditExport;
+use App\Filament\Resources\Exports\Pages\ListExports;
+use App\Filament\Resources\Exports\Schemas\ExportForm;
+use App\Filament\Resources\Exports\Tables\ExportsTable;
+use App\Models\Export;
 use BackedEnum;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Resources\Resource;
@@ -19,53 +17,45 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class DailyReportResource extends Resource implements HasShieldPermissions
+class ExportResource extends Resource implements HasShieldPermissions
 {
-    protected static ?string $model = DailyReport::class;
+    protected static ?string $model = Export::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    public static function getPermissionPrefixes(): array
+
+      public static function getPermissionPrefixes(): array
     {
         return [
-            'view',
             'view_any',
-            'export'
         ];
     }
     
 
     public static function getNavigationLabel(): string
     {
-        return __('site.daily_reports');
+        return __('site.exports');
     }
     
     public static function getModelLabel(): string
     {
-        return __('site.daily_report');
+        return __('site.export');
     }
     
     public static function getPluralModelLabel(): string
     {
-        return __('site.daily_reports');
+        return __('site.exports');
     }
-
-
 
 
     public static function form(Schema $schema): Schema
     {
-        return $schema;
-    }
-
-    public static function infolist(Schema $schema): Schema
-    {
-        return DailyReportInfolist::configure($schema);
+        return ExportForm::configure($schema);
     }
 
     public static function table(Table $table): Table
     {
-        return DailyReportsTable::configure($table);
+        return ExportsTable::configure($table);
     }
 
     public static function getRelations(): array
@@ -78,8 +68,7 @@ class DailyReportResource extends Resource implements HasShieldPermissions
     public static function getPages(): array
     {
         return [
-            'index' => ListDailyReports::route('/'),
-            'view' => ViewDailyReport::route('/{record}'),
+            'index' => ListExports::route('/'),
         ];
     }
 

@@ -14,6 +14,12 @@ class DailyReportExporter extends Exporter
 {
     protected static ?string $model = DailyReport::class;
 
+
+    public function getFileDisk(): string
+    {
+        return 'public';
+    }
+
     public static function canExport(User $user): bool
     {
         return $user->can('export_daily::reports::daily::report');
